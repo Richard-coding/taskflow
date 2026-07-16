@@ -42,6 +42,10 @@ const App = () => {
       ? tasks
       : tasks.filter((task) => task.status === selectedFilter);
 
+  const searchedTasks = visibleTasks.filter((task) => {
+    console.log(task);
+    return task.title.toLowerCase().trim().includes(input);
+  });
   return (
     <>
       <div>
@@ -66,19 +70,21 @@ const App = () => {
           </button>
         </div>
 
-        {visibleTasks.length < 1
+        {tasks.length === 0
           ? "Nenhuma tarefa encontrada"
-          : visibleTasks.map(({ id, title, status }) => (
-              <div key={id} className="flex gap-2">
-                <p>{id}</p>
-                <p>{title}</p>
-                <p>{status}</p>
-                <button onClick={() => deleteTask(id)}>delete</button>
-                <button onClick={() => changeStatus(id, "progress")}>
-                  status
-                </button>
-              </div>
-            ))}
+          : visibleTasks.length === 0
+            ? "Nenhuma tarefa encontrada nesse filtro"
+            : searchedTasks.map(({ id, title, status }) => (
+                <div key={id} className="flex gap-2">
+                  <p>{id}</p>
+                  <p>{title}</p>
+                  <p>{status}</p>
+                  <button onClick={() => deleteTask(id)}>delete</button>
+                  <button onClick={() => changeStatus(id, "progress")}>
+                    status
+                  </button>
+                </div>
+              ))}
       </div>
 
       <div className="flex gap-2">
