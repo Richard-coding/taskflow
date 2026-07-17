@@ -6,3 +6,8 @@ export type Task = {
   title: string;
   status: TaskStatus;
 };
+export type StatisticsProps = {
+  initCount: number;
+  progressCount: number;
+  completedCount: number;
+};

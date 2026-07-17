@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Task, TaskFilter, TaskStatus } from "./types/task";
+import Statistics from "./components/Statistics";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -43,7 +44,6 @@ const App = () => {
       : tasks.filter((task) => task.status === selectedFilter);
 
   const searchedTasks = visibleTasks.filter((task) => {
-    console.log(task);
     return task.title.toLowerCase().trim().includes(input);
   });
   return (
@@ -74,24 +74,26 @@ const App = () => {
           ? "Nenhuma tarefa encontrada"
           : visibleTasks.length === 0
             ? "Nenhuma tarefa encontrada nesse filtro"
-            : searchedTasks.map(({ id, title, status }) => (
-                <div key={id} className="flex gap-2">
-                  <p>{id}</p>
-                  <p>{title}</p>
-                  <p>{status}</p>
-                  <button onClick={() => deleteTask(id)}>delete</button>
-                  <button onClick={() => changeStatus(id, "progress")}>
-                    status
-                  </button>
-                </div>
-              ))}
+            : searchedTasks.length === 0
+              ? "Nenhuma tarefa encontrada na busca"
+              : searchedTasks.map(({ id, title, status }) => (
+                  <div key={id} className="flex gap-2">
+                    <p>{id}</p>
+                    <p>{title}</p>
+                    <p>{status}</p>
+                    <button onClick={() => deleteTask(id)}>delete</button>
+                    <button onClick={() => changeStatus(id, "progress")}>
+                      status
+                    </button>
+                  </div>
+                ))}
       </div>
 
-      <div className="flex gap-2">
-        <p>{initTask.length}</p>
-        <p>{progressTask.length}</p>
-        <p>{completedTask.length}</p>
-      </div>
+      <Statistics
+        initCount={initTask.length}
+        progressCount={progressTask.length}
+        completedCount={completedTask.length}
+      />
     </>
   );
 };
