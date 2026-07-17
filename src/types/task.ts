@@ -11,3 +11,6 @@ export type StatisticsProps = {
   progressCount: number;
   completedCount: number;
 };
+export type filterButtonsProps = {
+  onFilterChange: (filter: TaskFilter) => void;
+};

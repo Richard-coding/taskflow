@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Task, TaskFilter, TaskStatus } from "./types/task";
 import Statistics from "./components/Statistics";
+import FilterButtons from "./components/FilterButtons";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -60,14 +61,7 @@ const App = () => {
         </div>
 
         <div className="flex gap-2">
-          <button onClick={() => setSelectedFilter("all")}>all</button>
-          <button onClick={() => setSelectedFilter("init")}>init</button>
-          <button onClick={() => setSelectedFilter("progress")}>
-            progress
-          </button>
-          <button onClick={() => setSelectedFilter("completed")}>
-            completed
-          </button>
+          <FilterButtons onFilterChange={setSelectedFilter} />
         </div>
 
         {tasks.length === 0
