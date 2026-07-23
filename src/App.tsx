@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Task, TaskFilter, TaskStatus } from "./types/task";
 import Statistics from "./components/Statistics";
 import FilterButtons from "./components/FilterButtons";
+import TaskList from "./components/TaskList";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -21,7 +22,7 @@ const App = () => {
   const deleteTask = (id: string) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
-  const changeStatus = (id: string, status: TaskStatus): void => {
+  const statusChange = (id: string, status: TaskStatus): void => {
     setTasks((prevTask) =>
       prevTask.map((task) => {
         if (task.id === id) {
@@ -59,28 +60,16 @@ const App = () => {
           />
           <button onClick={() => createTask("title")}>criar tarefa</button>
         </div>
-
         <div className="flex gap-2">
           <FilterButtons onFilterChange={setSelectedFilter} />
         </div>
-
         {tasks.length === 0
           ? "Nenhuma tarefa encontrada"
           : visibleTasks.length === 0
             ? "Nenhuma tarefa encontrada nesse filtro"
             : searchedTasks.length === 0
               ? "Nenhuma tarefa encontrada na busca"
-              : searchedTasks.map(({ id, title, status }) => (
-                  <div key={id} className="flex gap-2">
-                    <p>{id}</p>
-                    <p>{title}</p>
-                    <p>{status}</p>
-                    <button onClick={() => deleteTask(id)}>delete</button>
-                    <button onClick={() => changeStatus(id, "progress")}>
-                      status
-                    </button>
-                  </div>
-                ))}
+              :  <TaskList tasks={searchedTasks} onDelete={deleteTask} onStatusChange={statusChange} />}
       </div>
 
       <Statistics

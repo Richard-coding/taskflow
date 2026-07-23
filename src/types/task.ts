@@ -6,6 +6,18 @@ export type Task = {
   title: string;
   status: TaskStatus;
 };
+
+export type TaskListProps = {
+  tasks: Task[];
+  onDelete: (id: string) => void;
+  onStatusChange: (id: string, status: TaskStatus) => void;
+};
+
+export type TaskItemProps = {
+  task: Task;
+  onDelete: (id: string) => void;
+  onStatusChange: (id: string, status: TaskStatus) => void;
+};
 export type StatisticsProps = {
   initCount: number;
   progressCount: number;
