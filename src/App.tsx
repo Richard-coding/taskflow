@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Task, TaskFilter, TaskStatus } from "./types/task";
 import Statistics from "./components/Statistics";
 import FilterButtons from "./components/FilterButtons";
 import TaskList from "./components/TaskList";
 
 const App = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const data = localStorage.getItem("tasks");
+
+    if (data === null) {
+      return [];
+    }
+
+    return JSON.parse(data);
+  });
+
   const [selectedFilter, setSelectedFilter] = useState<TaskFilter>("all");
   const [input, setInput] = useState("");
 
@@ -48,6 +57,9 @@ const App = () => {
   const searchedTasks = visibleTasks.filter((task) => {
     return task.title.toLowerCase().trim().includes(input);
   });
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
   return (
     <>
       <div>
