@@ -11,7 +11,7 @@ const FilterButtons = ({ onFilterChange }: filterButtonsProps) => {
   return (
     <>
       {buttons.map(({ label }) => (
-        <button onClick={() => onFilterChange(label)}>{label}</button>
+        <button key={label} onClick={() => onFilterChange(label)}>{label}</button>
       ))}
     </>
   );

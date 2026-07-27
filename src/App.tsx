@@ -6,13 +6,18 @@ import TaskList from "./components/TaskList";
 
 const App = () => {
   const [tasks, setTasks] = useState<Task[]>(() => {
-    const data = localStorage.getItem("tasks");
+    try {
+      const data = localStorage.getItem("tasks");
 
-    if (data === null) {
+      if (data === null) {
+        return [];
+      }
+
+      return JSON.parse(data);
+    } catch (error) {
+      console.log("Erro ao ler as tarefas do LocalStorage:", error);
       return [];
     }
-
-    return JSON.parse(data);
   });
 
   const [selectedFilter, setSelectedFilter] = useState<TaskFilter>("all");
